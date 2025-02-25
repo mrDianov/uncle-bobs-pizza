@@ -1,0 +1,17 @@
+{
+    "name": "dianov/uncle-bobs-pizza",
+    "description": "RESTful service for pizzeria",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "dianov\\unclebobspizza\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dianov",
+            "email": "daniil.dianov@gmail.com"
+        }
+    ],
+    "require": {}
+}

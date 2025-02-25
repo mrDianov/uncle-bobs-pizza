@@ -1,0 +1,31 @@
+services:
+  nginx:
+    build: 
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - php
+    networks:
+      - internal
+    volumes:
+      - ./app/:/var/www/html/
+
+  php:
+    build: 
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    networks:
+      - internal
+
+  db:
+    build: ./docker/postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
