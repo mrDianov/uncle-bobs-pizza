@@ -16,14 +16,12 @@ class Response implements Presenter
     public function present(?array $data = null)
     {
         http_response_code($this->successCode);
-        echo json_encode($data ?? "");
-        // die();
+        echo $data ? json_encode($data) : "";
     }
 
     public function error(?string $message = null)
     {
         http_response_code($this->errorCode);
         echo $message ?? "";
-        // die();
     }
 }
