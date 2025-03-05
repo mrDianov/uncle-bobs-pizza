@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace dianov\unclebobspizza\service;
 
+use Throwable;
 
 class Router
 {
@@ -18,19 +19,31 @@ class Router
             function (string $path) {
                 $response = new Response(errorCode: 404);
                 $response->error("method: '$path' not found");
-                echo http_response_code();
+            },
+            method: null,
+        );
+        $this->internalErrorRoute = new Route(
+            "/^(.*)$/",
+            function (string $path) {
+                $response = new Response(errorCode: 500);
+                $response->error("internal server error");
             },
             method: null,
         );
     }
 
-    private Route $notFoundRoute; 
+    private Route $notFoundRoute;
+    private Route $internalErrorRoute;
 
     public function run()
     {
-        foreach ($this->routes as $route) {
-            if ($route->go()) return;
+        try {
+            foreach ($this->routes as $route) {
+                if ($route->go()) return;
+            }
+            $this->notFoundRoute->go();
+        } catch (Throwable $e) {
+            $this->internalErrorRoute->go();
         }
-        $this->notFoundRoute->go();
     }
 }
