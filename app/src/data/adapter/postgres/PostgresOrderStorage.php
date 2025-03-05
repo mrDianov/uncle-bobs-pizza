@@ -31,7 +31,9 @@ class PostgresOrderStorage implements OrderGateway
         );
         if ($result) {
             $row = pg_fetch_row($result);
-            return new Order(intval($row[0]), $row[1] == "t");
+            if ($row) {
+                return new Order(intval($row[0]), $row[1] == "t");
+            }
         }
         return null;
     }
