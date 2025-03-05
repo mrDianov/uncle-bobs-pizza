@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace dianov\unclebobspizza\service;
 
 use Closure;
-use Exception;
+use DomainException;
 
 class Route
 {
@@ -33,7 +33,7 @@ class Route
             if (! isset($matches)) $matches = [];
             try {
                 call_user_func_array($this->action, array_slice($matches, 1));
-            } catch (Exception $e) {
+            } catch (DomainException $e) {
                 http_response_code(400);
                 echo $e->getMessage();
             }
